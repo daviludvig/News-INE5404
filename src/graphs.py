@@ -5,8 +5,9 @@ BACKGROUND_COLOR = "#B3B6B7"
 FONT_COLOR = "#1B2631"
 
 class Graphs():
-    def __init__(self, root):
+    def __init__(self, root, user):
         self.root = root
+        self.user = user
     
     def set_confs(self):
         self.root.title("Graphs")

@@ -1,5 +1,5 @@
-from decouple import Config, Csv
-
+from decouple import config, Csv
+import os
 import requests
 
 class News():
@@ -7,8 +7,7 @@ class News():
        self.load_api_key()
 
     def load_api_key(self):
-        config = Config()
-        config.read_dotenv()
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         self.api_key = config('NEWS_API_KEY')
 
     def get_news(self, category, country='br'):

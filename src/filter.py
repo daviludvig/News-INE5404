@@ -30,6 +30,11 @@ class Filter(Toplevel):
         self.entry_date_to()
         self.entry_category()
         self.entry_country()
+        if self.user.filter != {}:
+            self.date_from.insert(0, self.user.filter['date_from'])
+            self.date_to.insert(0, self.user.filter['date_to'])
+            self.category.insert(0, self.user.filter['category'])
+            self.country.insert(0, self.user.filter['country'])
 
     def place_logo(self):
         text = Label(self, text='Filtro INE5404', font=("Times", 20), bg=BACKGROUND_COLOR, fg=FONT_COLOR)
@@ -56,7 +61,8 @@ class Filter(Toplevel):
         label = Label(self, text='Data final', font=("Times", 20), bg=BACKGROUND_COLOR, fg=FONT_COLOR)
         label.place(x=220, y=70)
         self.date_to.place(x=220, y=110)
-        self.date_to.insert(0, today)
+        if self.user.filter == {}:
+            self.date_to.insert(0, today)
 
     def entry_category(self):
         self.category = Entry(self, width=20, font=("Times", 15))
@@ -69,7 +75,9 @@ class Filter(Toplevel):
         label = Label(self, text='País', font=("Times", 20), bg=BACKGROUND_COLOR, fg=FONT_COLOR)
         label.place(x=280, y=170)
         self.country.place(x=280, y=210)
-        self.country.insert(0, 'br')
+
+        if self.user.filter == {}:
+            self.country.insert(0, 'br')
 
     def finish(self, next_news):
 
@@ -110,7 +118,7 @@ class Filter(Toplevel):
             return
         
         self.info = {'date_from': date_from, 'date_to': date_to, 'category': category, 'country': country}
-
+        self.user.set_filter(self.info)
         # self.quit()
 
         self.destroy()

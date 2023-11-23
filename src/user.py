@@ -2,7 +2,7 @@
 from database import Database
 
 class User():
-    def __init__(self, username, password):
+    def __init__(self, username=None, password=None):
         self.username = username
         self.password = password
         self.filter = {}
@@ -16,11 +16,8 @@ class User():
     def set_username(self, username):
         self.username = username
 
-    def set_filter(self, date_from, date_to, category, country='br'):
-        self.filter['date_from'] = date_from
-        self.filter['date_to'] = date_to
-        self.filter['category'] = category
-        self.filter['country'] = country
+    def set_filter(self, in_filter):
+        self.filter = in_filter
 
 if __name__ == "__main__":
     db = Database()
