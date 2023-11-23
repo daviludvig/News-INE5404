@@ -3,6 +3,7 @@
 from tkinter import *
 from graphs import Graphs
 from news import News
+from filter import Filter
 
 # Constants
 BACKGROUND_COLOR = "#B3B6B7"
@@ -13,6 +14,7 @@ class Interface(Graphs):
         super().__init__(root)
         self.user = user
         self.news = News()
+        self.idx = -1
 
         self.set_confs()
         self.root.title('Notícias - INE5404')
@@ -45,14 +47,23 @@ class Interface(Graphs):
         frame.configure(background="white")
         frame.place(x=50, y=100)
 
+    def show_news(self, category, country):
+        news = self.news.get_idx_news(category, self.idx, country)
+        print(news)  
+    
     def next_news(self):
+        self.idx += 1
+        self.show_news(self.filter_window.info['category'], self.filter_window.info['country'])
         pass
 
     def past_news(self):
-        pass
+        if self.idx > 0:
+            self.idx -= 1
+        self.show_news(self.filter_window.info['category'], self.filter_window.info['country'])
 
     def filter(self):
-        pass
+        self.filter_window = Filter(self.root, self.user, self.next_news)
+        self.idx = -1
 
 if __name__ == '__main__':
     root = Tk()

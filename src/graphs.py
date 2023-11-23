@@ -15,4 +15,4 @@ class Graphs():
 
     def place_logo(self):
         text = Label(self.root, text="Notícias INE5404", font=("Times", 30), bg=BACKGROUND_COLOR, fg=FONT_COLOR)
-        text.pack(side=TOP, pady=20, padx=20, anchor=NW)
+        text.pack(side=TOP, pady=20, padx=50, anchor=NW)

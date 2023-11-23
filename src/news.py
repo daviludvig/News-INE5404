@@ -1,14 +1,23 @@
+from decouple import Config, Csv
 
 import requests
 
 class News():
     def __init__(self):
-        self.api_key = '06b15464866744d299c3ddda122bb35d'
-        self.country = 'br'
+       self.load_api_key()
 
-    def get_news(self, category):
+    def load_api_key(self):
+        config = Config()
+        config.read_dotenv()
+        self.api_key = config('NEWS_API_KEY')
+
+    def get_news(self, category, country='br'):
         url = f'https://newsapi.org/v2/top-headlines'
-        params = {'country': self.country, 'category': category, 'apiKey': self.api_key}
+        params = {
+                'country': country, 
+                'category': category, 
+                'apiKey': self.api_key
+                  }
 
         response = requests.get(url, params=params) 
 
@@ -21,15 +30,22 @@ class News():
         else:
             print('Erro ao obter notícias.')
             return None
+    
+    def get_idx_news(self, category, idx, country='br'):
+        news = self.get_news(category, country)
+        if news != None:
+            return news[idx]
+        else:
+            return None
 
-if __name__ == "__main__":
-    news = News()
-    if news.get_news('technology') != None:
-        for idx, article in enumerate(news.get_news('technology')):
-            print(f'{idx+1}º notícia:')
-            print(f'Título: {article["title"]}')
-            print(f'Link: {article["url"]}')
-            print(f'Autor: {article["author"]}')
-            print(f'Data de publicação: {article["publishedAt"]}')
-            print(f'Descrição: {article["description"]}')
-            print()
+# if __name__ == "__main__":
+#     news = News()
+#     if news.get_news('health') != None:
+#         for idx, article in enumerate(news.get_news('politics')):
+#             print(f'{idx+1}º notícia:')
+#             print(f'Título: {article["title"]}')
+#             print(f'Link: {article["url"]}')
+#             print(f'Autor: {article["author"]}')
+#             print(f'Data de publicação: {article["publishedAt"]}')
+#             print(f'Descrição: {article["description"]}')
+#             print()
