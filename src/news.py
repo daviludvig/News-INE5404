@@ -22,14 +22,14 @@ class News():
             print('Erro ao obter notícias.')
             return None
 
-# if __name__ == "__main__":
-#     news = News()
-#     if news.get_news('technology') != None:
-#         for idx, article in enumerate(news.get_news('technology')):
-#             print(f'{idx+1}º notícia:')
-#             print(f'Título: {article["title"]}')
-#             print(f'Link: {article["url"]}')
-#             print(f'Autor: {article["author"]}')
-#             print(f'Data de publicação: {article["publishedAt"]}')
-#             print(f'Descrição: {article["description"]}')
-#             print()
+if __name__ == "__main__":
+    news = News()
+    if news.get_news('technology') != None:
+        for idx, article in enumerate(news.get_news('technology')):
+            print(f'{idx+1}º notícia:')
+            print(f'Título: {article["title"]}')
+            print(f'Link: {article["url"]}')
+            print(f'Autor: {article["author"]}')
+            print(f'Data de publicação: {article["publishedAt"]}')
+            print(f'Descrição: {article["description"]}')
+            print()
