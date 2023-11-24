@@ -179,4 +179,5 @@ class Login_screen(Graphs):
     def quit(self, show_interface):
         for widget in self.root.winfo_children():
             widget.destroy()
+        self.user.set_filter({})
         show_interface()
