@@ -20,7 +20,7 @@ class Filter(Toplevel):
         self.configure(background=BACKGROUND_COLOR)
         self.geometry('400x500')
         self.resizable(False, False)
-        self.title('Filtro - INE5404')
+        self.title(f'Filtro {self.user.get_username()} - INE5404')
         self.place_logo()
         self.place_buttons(next_news)
 

@@ -1,6 +1,3 @@
-
-from database import Database
-
 class User():
     def __init__(self, username=None, password=None):
         self.username = username
@@ -18,10 +15,7 @@ class User():
 
     def set_filter(self, in_filter):
         self.filter = in_filter
-
-if __name__ == "__main__":
-    db = Database()
-    usu = User('juano', '123')
-    db.login(usu)
-
+    
+    def set_password(self, password):
+        self.password = password
 

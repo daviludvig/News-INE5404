@@ -12,20 +12,32 @@ FONT_COLOR = "#1B2631"
 class Interface(Graphs):
     def __init__(self, root, user):
         super().__init__(root, user)
-        # self.user = user
         self.news = News()
         self.idx = -1
 
+        # self.set_confs()
+        # self.root.title('Notícias - INE5404')
+        # self.place_logo()
+        # self.place_buttons()
+
+    def show(self, show_login):
         self.set_confs()
         self.root.title('Notícias - INE5404')
         self.place_logo()
-        self.place_buttons()
+        self.place_buttons(show_login)
+        self.root.mainloop()
 
-    def place_buttons(self):
+    def place_buttons(self, show_login):
         self.button_filter()
         self.button_next_news()
         self.button_past_news()
         self.frame_news()
+        self.button_log_out(show_login)
+
+    def button_log_out(self, show_login):
+        button = Button(self.root, text='Log out', command= lambda: self.quit(show_login))
+        button.configure(background=BACKGROUND_COLOR, fg=FONT_COLOR, font=("Times", 26))
+        button.place(x=760, y=20)
 
     def button_filter(self):
         button = Button(self.root, text='Filtro', command=self.filter, width=10, height = 3)
@@ -51,7 +63,7 @@ class Interface(Graphs):
         self.frame.configure(background="white")
         self.frame.place(x=50, y=100)
 
-    def show_news(self, category, country):
+    def show_news(self, category, country, from_date, to_date):
         
         def open_link(url):
             import webbrowser
@@ -60,7 +72,7 @@ class Interface(Graphs):
         for widget in self.frame.winfo_children():
             widget.destroy()
     
-        news = self.news.get_idx_news(category, self.idx, country)
+        news = self.news.get_idx_news(category, from_date, to_date, self.idx, country)
 
         if news != None:
             news = {'title': news['title'], 'url': news['url'], 'author': news['author'], 'publishedAt': news['publishedAt'], 'description': news['description']}
@@ -79,7 +91,7 @@ class Interface(Graphs):
         publishedAt = Label(self.frame, text=news['publishedAt'], font=("Times", 14), bg="white", fg=FONT_COLOR)
         # publishedAt.place(x=0, y=90)
         publishedAt.pack(side=BOTTOM, padx=5, anchor=W)
-        description = Label(self.frame, text=news['description'], font=("Times", 14), bg="white", fg=FONT_COLOR)
+        description = Label(self.frame, text=news['description'], font=("Times", 14), bg="white", fg=FONT_COLOR, wraplength=570)
         # description.place(x=0, y=120)
         description.pack(side=BOTTOM, padx=5, anchor=W)
 
@@ -87,20 +99,21 @@ class Interface(Graphs):
     
     def next_news(self):
         self.idx += 1
-        self.show_news(self.filter_window.info['category'], self.filter_window.info['country'])
-        pass
+        self.show_news(self.filter_window.info['category'], self.filter_window.info['country'], self.filter_window.info['date_from'], self.filter_window.info['date_to'])
 
     def past_news(self):
         if self.idx > 0:
             self.idx -= 1
-        self.show_news(self.filter_window.info['category'], self.filter_window.info['country'])
+        self.show_news(self.filter_window.info['category'], self.filter_window.info['country'], self.filter_window.info['date_from'], self.filter_window.info['date_to'])
+
 
     def filter(self):
         self.filter_window = Filter(self.root, self.user, self.next_news)
 
         self.idx = -1
+    
+    def quit(self, show_login):
+        for widget in self.root.winfo_children():
+            widget.destroy()
+        show_login()
 
-if __name__ == '__main__':
-    root = Tk()
-    Interface(root, 'user')
-    root.mainloop()
